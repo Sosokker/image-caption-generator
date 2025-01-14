@@ -19,7 +19,11 @@
     </style>
   </head>
   <body>
-    <h1>Image Caption Generator</h1>
+    <div id="title-section">
+      <img src="static/baby-dance.gif" />
+      <h1>Image Caption Generator</h1>
+      <img src="static/baby-dance.gif" />
+    </div>
     <form id="uploadForm">
       <label for="file">Upload an image:</label>
       <input type="file" id="file" name="file" accept="image/*" required />
@@ -137,6 +141,19 @@
       display: none;
       font-size: 16px;
       color: #007bff;
+    }
+
+    #title-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px; /* Space between title and GIF */
+      margin-bottom: 20px;
+    }
+    #title-section img {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
     }
   </style>
 </html>
