@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Caption Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      img {
+        max-width: 100%;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Caption Generator</h1>
+    <form id="uploadForm">
+      <label for="file">Upload an image:</label>
+      <input type="file" id="file" name="file" accept="image/*" required />
+      <button type="submit">Generate Caption</button>
+    </form>
+    <h2>Generated Caption:</h2>
+    <p id="caption">No caption generated yet.</p>
+    <img id="uploadedImage" src="/static/placeholder.jpg" alt="Uploaded Image" />
+
+    <script>
+      const form = document.getElementById("uploadForm");
+      const captionElement = document.getElementById("caption");
+      const uploadedImage = document.getElementById("uploadedImage");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const fileInput = document.getElementById("file");
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // Update the displayed image
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Send the file to the server
+        const response = await fetch("/upload/", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        captionElement.textContent = result.caption;
+      });
+    </script>
+  </body>
+</html>
